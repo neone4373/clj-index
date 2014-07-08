@@ -82,19 +82,19 @@
     (is (= (find-L (find-reverse-N "ab:abab")) [0 0, 0, 0 0, 4 0]))
     (is (= (find-L (find-reverse-N "dabababab")) [0 0 0 6, 0 4 0 2, 0]))))
 
-(deftest find-l-all-cases
+(deftest find-li-all-cases
   (testing "Null cases"
     (are [x] (nil? x)
-	 (find-l nil)
-	 (find-l [])
-	 (find-l "")))
+	 (find-li nil)
+	 (find-li [])
+	 (find-li "")))
   (testing "Usual cases"
-    (is (= (find-l (find-reverse-N "abcde")) [0 0 0 0 0]))
-    (is (= (find-l (find-reverse-N "aaaaa")) [4 4 3 2 1]))
-    (is (= (find-l (find-reverse-N "abcabcabc")) [6 6 6 6 3 3 3 0 0]))
-    (is (= (find-l (find-reverse-N "abba")) [1 1 1 1])))
+    (is (= (find-li (find-reverse-N "abcde")) [0 0 0 0 0]))
+    (is (= (find-li (find-reverse-N "aaaaa")) [4 4 3 2 1]))
+    (is (= (find-li (find-reverse-N "abcabcabc")) [6 6 6 6 3 3 3 0 0]))
+    (is (= (find-li (find-reverse-N "abba")) [1 1 1 1])))
   (testing "Source is not a vector"
-    (is (= (find-l (list 0 5 0 3 0 1)) [5 5 3 3 1 1]))))
+    (is (= (find-li (list 0 5 0 3 0 1)) [5 5 3 3 1 1]))))
 
 (deftest binary-search-all-cases
   (testing "Null or empty"

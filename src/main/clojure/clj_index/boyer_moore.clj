@@ -91,7 +91,7 @@
 		  (transient [])
 		  (range n)))))))
 
-(defn find-l
+(defn find-li
   "l(i) is the largest suffix of P[i..n] which is also prefix of P.
    NOTE: prefix and suffix may oferlap, i.e. for aaa = [0 2 1]"
   [rev-n-values]
@@ -189,4 +189,4 @@
      (count pattern)
      (find-char-idx pattern)
      (find-L reverse-n)
-     (find-l reverse-n))))
+     (find-li reverse-n))))
