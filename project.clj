@@ -1,4 +1,4 @@
-(defproject neone4373/clj-index "0.0.4"
+(defproject neone4373/clj-index "0.0.5"
   :description "String indexing and matching algorithms"
   :dependencies [[org.clojure/clojure "1.4.0"]]
   :url "https://github.com/neone4373/clj-index"
