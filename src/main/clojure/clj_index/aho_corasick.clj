@@ -1,6 +1,6 @@
 (in-ns 'clj-index.core)
 (require '[clojure.zip :as zip])
-(use '[mutable.box])
+(use '[mutable.mbox])
 (import '[mutable Box])
 
 ;;===============================================================
@@ -23,7 +23,7 @@
 (defn- make-child
   "Creates mutable child object"
   (^Box []
-        (box (array-map))))
+        (mbox (array-map))))
 
 (defn- get-or-add!
   "Searches for a child with the given key, if it does not
@@ -269,7 +269,7 @@
       (inner data 0 tree data 0))))
 
 (defn ac-index [patterns]
-  (let [tree (box)]
+  (let [tree (mbox)]
     (doseq [pattern patterns]
       (add-word! tree pattern))
     (add-links! tree)

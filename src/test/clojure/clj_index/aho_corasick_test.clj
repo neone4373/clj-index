@@ -1,7 +1,7 @@
 (ns clj-index.aho-corasick-test
   (:use [clj-index.core :as sut] :reload-all)
   (:use [clojure.test]
-        [mutable.box])
+        [mutable.mbox])
   (:import [mutable Box]))
 
 ;;===============================================================
@@ -10,16 +10,16 @@
 
 (deftest get-or-add
   (testing "Intialization"
-    (let [b (box)]
+    (let [b (mbox)]
       (is (= (@#'sut/make-child)
              (@#'sut/get-or-add! b \a))
           "New child")
       (is (= (@#'sut/make-child)
              (@#'sut/get-child b \a))
-          "Original box updated"))))
+          "Original mbox updated"))))
 
 (deftest get-children
-  (let [b (doto (box)
+  (let [b (doto (mbox)
             (@#'sut/get-or-add! \a)
             (@#'sut/get-or-add! \b)
             (@#'sut/get-or-add! \c))]
@@ -33,14 +33,14 @@
           (str "New child node for key " k)))))
 
 (deftest word-marks
-  (let [b (box)]
+  (let [b (mbox)]
     (is (not (@#'sut/word? b)))
     (do (@#'sut/mark-word! b)
         (is (@#'sut/word? b)))))
 
 (deftest skip-links
-  (let [b1 (box)
-        b2 (box)]
+  (let [b1 (mbox)
+        b2 (mbox)]
     (are [b] (nil? (@#'sut/get-skip-link b))
          b1
          b2)
@@ -51,9 +51,9 @@
              b2 123 (@#'sut/get-skip-link b1)))))
 
 (deftest skip-link-seq
-  (let [b1 (box)
-        b2 (box)
-        b3 (box)
+  (let [b1 (mbox)
+        b2 (mbox)
+        b3 (mbox)
         _ (do (@#'sut/set-skip-link! b1 b2 123)
               (@#'sut/set-skip-link! b2 b3 15))
         b1-seq (doall (@#'sut/skip-seq b1))
@@ -71,7 +71,7 @@
   (testing "Max length is mantained"
     (are [added-words max-length]
          (= max-length
-            (let [tree (box)]
+            (let [tree (mbox)]
               (doseq [word added-words]
                 (@#'sut/add-word! tree word))
               (@#'sut/get-max-length tree)))
@@ -82,7 +82,7 @@
          ["a" "bc" "dfe"] 3)))
 
 (deftest match-prefix-test
-  (let [tree (doto (box)
+  (let [tree (doto (mbox)
                (@#'sut/add-word! "abcde")
                (@#'sut/add-word! "abcef"))]
     (are [child-keys prefix]
@@ -101,7 +101,7 @@
          "bcd")))
 
 (defn get-tree [& words]
-  (let [tree (box)]
+  (let [tree (mbox)]
     (doseq [word words]
       (sut/add-word! tree word))
     tree))
@@ -118,7 +118,7 @@
   ;;    c-d-g
   ;;      |
   ;;      d-h
-  (let [tree (box)
+  (let [tree (mbox)
         add-skip (fn [from to]
                    (@#'sut/set-skip-link!
                     (sut/match-prefix tree from)
